@@ -836,7 +836,7 @@ BoeingColors.red = 'red';
 BoeingColors.amber = '#ffd600';
 BoeingColors.green = '#00ff00';
 BoeingColors.magenta = '#ff5bff';
-BoeingColors.cyan = '#00ccff';
+BoeingColors.cyan = '#00ffff';
 
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /**
@@ -43927,7 +43927,6 @@ var AutolandCapability;
     AutolandCapability[AutolandCapability["FailOperational"] = 2] = "FailOperational";
 })(AutolandCapability || (AutolandCapability = {}));
 
-
 /** Type for whether ND is in HDG up or TRK up mode. */
 var BoeingNdHdgTrkUpMode;
 (function (BoeingNdHdgTrkUpMode) {
@@ -43946,24 +43945,23 @@ var BoeingMsfsVBar;
     BoeingMsfsVBar[BoeingMsfsVBar["XPTR"] = 1] = "XPTR";
     BoeingMsfsVBar[BoeingMsfsVBar["VBAR"] = 0] = "VBAR";
 })(BoeingMsfsVBar || (BoeingMsfsVBar = {}));
-//AOA
-var BoeingMsfsAOA;
-(function (BoeingMsfsAOA) {
-    BoeingMsfsAOA[BoeingMsfsAOA["ON"] = 1] = "ON";
-    BoeingMsfsAOA[BoeingMsfsAOA["OFF"] = 0] = "OFF";
-})(BoeingMsfsAOA || (BoeingMsfsAOA = {}));
-// ADF
 var BoeingMsfsADF;
 (function (BoeingMsfsADF) {
     BoeingMsfsADF[BoeingMsfsADF["ON"] = 1] = "ON";
     BoeingMsfsADF[BoeingMsfsADF["OFF"] = 0] = "OFF";
 })(BoeingMsfsADF || (BoeingMsfsADF = {}));
-// Radio Alt
+// RA , AOA
 var BoeingMsfsRadAlt;
 (function (BoeingMsfsRadAlt) {
-    BoeingMsfsRadAlt[BoeingMsfsRadAlt["ROUND"] = 1] = "ROUND";
-    BoeingMsfsRadAlt[BoeingMsfsRadAlt["CLASSIC"] = 0] = "CLASSIC";
+    BoeingMsfsRadAlt[BoeingMsfsRadAlt["ON"] = 1] = "ON";
+    BoeingMsfsRadAlt[BoeingMsfsRadAlt["OFF"] = 0] = "OFF";
 })(BoeingMsfsRadAlt || (BoeingMsfsRadAlt = {}));
+
+var BoeingMsfsAOA;
+(function (BoeingMsfsAOA) {
+    BoeingMsfsAOA[BoeingMsfsAOA["ON"] = 1] = "ON";
+    BoeingMsfsAOA[BoeingMsfsAOA["OFF"] = 0] = "OFF";
+})(BoeingMsfsAOA || (BoeingMsfsAOA = {}));
 /** Type for whether ND is in HDG up or TRK up mode. */
 var BoeingFuelIndicatorStyle;
 (function (BoeingFuelIndicatorStyle) {
@@ -43995,51 +43993,7 @@ var BoeingAutoFuelMode;
     /** Auto fuel management off */
     BoeingAutoFuelMode[BoeingAutoFuelMode["OFF"] = 1] = "OFF";
 })(BoeingAutoFuelMode || (BoeingAutoFuelMode = {}));
-
-var BoeingEfbCalcSpeed;
-(function (BoeingEfbCalcSpeed) {
-    BoeingEfbCalcSpeed[BoeingEfbCalcSpeed["FAST"] = 0] = "FAST";
-    BoeingEfbCalcSpeed[BoeingEfbCalcSpeed["REAL"] = 1] = "REAL";
-})(BoeingEfbCalcSpeed || (BoeingEfbCalcSpeed = {}));
-/**
- * Loading Speed Setting
- */
-var HorizonPayloadRate;
-(function (HorizonPayloadRate) {
-    HorizonPayloadRate[HorizonPayloadRate["REAL"] = 0] = "REAL";
-    HorizonPayloadRate[HorizonPayloadRate["FAST"] = 1] = "FAST";
-    HorizonPayloadRate[HorizonPayloadRate["INSTANT"] = 2] = "INSTANT";
-})(HorizonPayloadRate || (HorizonPayloadRate = {}));
-/**
- * Refuel Speed - Sync with EFB to Time Remaining
- */
-var HorizonRateFuel;
-(function (HorizonRateFuel) {
-    HorizonRateFuel[HorizonRateFuel["REAL"] = 32] = "REAL"; //Typical Truck 300Gal/min => 5Gal/s => ~ 32 LB/s
-    HorizonRateFuel[HorizonRateFuel["FAST"] = 220] = "FAST"; // 100kg/s
-    HorizonRateFuel[HorizonRateFuel["INSTANT"] = 0] = "INSTANT";
-})(HorizonRateFuel || (HorizonRateFuel = {}));
-/**
- * Boarding Speed - Sync with EFB to Time Remaining
- */
-var HorizonRatePax;
-(function (HorizonRatePax) {
-    HorizonRatePax[HorizonRatePax["REAL"] = 7.5] = "REAL"; //7.5 Pax per Minute
-    HorizonRatePax[HorizonRatePax["FAST"] = 30] = "FAST"; //30 Pax per Minute
-    HorizonRatePax[HorizonRatePax["INSTANT"] = 0] = "INSTANT";
-})(HorizonRatePax || (HorizonRatePax = {}));
-/**
- * Loading Speed - Sync with EFB to Time Remaining
- */
-var HorizonRateCargo;
-(function (HorizonRateCargo) {
-    HorizonRateCargo[HorizonRateCargo["REAL"] = 16] = "REAL"; //16 lbs/s => ~993 lbs/min
-    HorizonRateCargo[HorizonRateCargo["FAST"] = 60] = "FAST"; //60 lbs/s => 3600 lbs/min
-    HorizonRateCargo[HorizonRateCargo["INSTANT"] = 0] = "INSTANT";
-})(HorizonRateCargo || (HorizonRateCargo = {}));
-
 const boeingMsfsUserSettings = [
-
     {
         name: 'boeingMsfsNdHdgTrkUpMode',
         defaultValue: BoeingNdHdgTrkUpMode.TRK,
@@ -44087,22 +44041,6 @@ const boeingMsfsUserSettings = [
     {
         name: 'BoeingMsfsRadAlt',
         defaultValue: BoeingMsfsRadAlt.ON,
-    },
-    {
-        name: 'boeingSpeedCalc',
-        defaultValue: BoeingEfbCalcSpeed.REAL,
-    },
-    {
-        name: 'HorizonRefuelRate',
-        defaultValue: HorizonPayloadRate.REAL,
-    },
-    {
-        name: 'HorizonPaxRate',
-        defaultValue: HorizonPayloadRate.REAL,
-    },
-    {
-        name: 'HorizonCargoRate',
-        defaultValue: HorizonPayloadRate.REAL,
     },
 ];
 /**
@@ -63594,7 +63532,7 @@ class TcasBlock extends DisplayComponent {
                     this.tfcModeRef.instance.classList.remove('tfc-mode');
                     this.tfcModeRef.instance.classList.add('tcas-mode-off');
                 } else {
-                    this.tfcModeRef.instance.textContent = 'TFC-ALL'; // The minimap will always display ALL instead of FLTR (according to hainan fcom)
+                    this.tfcModeRef.instance.textContent = 'TFC-FLTR';
                     this.tfcModeRef.instance.classList.remove('tcas-mode-off');
                     this.tfcModeRef.instance.classList.add('tfc-mode');
                 }
@@ -63648,7 +63586,7 @@ class TcasBlock extends DisplayComponent {
         return (FSComponent.buildComponent("div", { class: "tcas-block-container" },
             FSComponent.buildComponent("div", { class: "tcas-mode-off hidden", ref: this.tcasModeOffOrFailedContainerRef },
                 FSComponent.buildComponent("span", { ref: this.tcasModeOffOrFailedTextRef }, "TCAS OFF")),
-            FSComponent.buildComponent("div", { class: "tfc-mode", ref: this.tfcModeRef }, "TFC-ALL"), // The minimap will always display ALL instead of FLTR (according to hainan fcom
+            FSComponent.buildComponent("div", { class: "tfc-mode", ref: this.tfcModeRef }, "TFC-FLTR"),
             FSComponent.buildComponent("div", { class: "tcas-mode", ref: this.tcasModeRef })));
     }
 
@@ -66826,8 +66764,7 @@ class DefaultFlapRetractionDataProvider {
         this.isFirstFlapRetractionStarted = this._isFirstFlapRetractionStarted;
         this.flapsPosition = ConsumerValue.create(null, 0);
         this.isOnGround = ConsumerValue.create(null, false);
-        this.firstFlapsRetractionArmedPosition = -1;
-        this.hasBeenOnGround = false;
+        this.firstFlapsRetractionArmedPosition = 0;
         this.pauseable = [
             this.flapsPosition,
             this.isOnGround
@@ -66902,12 +66839,9 @@ class DefaultFlapRetractionDataProvider {
     update() {
         const flapsPosition = this.flapsPosition.get();
         if (this.isOnGround.get()) {
-            if (!this.hasBeenOnGround) {
-                this.hasBeenOnGround = true;
-                this.firstFlapsRetractionArmedPosition = flapsPosition;
-            }
+            this.firstFlapsRetractionArmedPosition = flapsPosition;
             this._isFirstFlapRetractionStarted.set(false);
-        } else if (!this._isFirstFlapRetractionStarted.get() && this.firstFlapsRetractionArmedPosition >= 0) {
+        } else if (!this._isFirstFlapRetractionStarted.get()) {
             this._isFirstFlapRetractionStarted.set(flapsPosition === 0 || (flapsPosition < this.firstFlapsRetractionArmedPosition));
         }
     }
@@ -69202,16 +69136,9 @@ class SpeedLimitPublisher extends BasePublisher {
         const coef = normAoa * iasSquared;
         const aoaCoef = this.aoaCoefSmoother.next(coef, dt);
         const loadFactor = this.loadFactorSmoother.next(this.loadFactorSource.get(), dt);
-        
-        // Apply altitude-based correction factor to compensate for sim limitations at high altitude
-        // The sim's STALL ALPHA doesn't increase correctly at high altitudes, resulting in artificially low stall speeds
-        // This correction factor scales from 1.0 below FL100 to approximately 1.24 at FL450
-        const altitudeCorrection = 1.0 + Math.max(0, (pressureAlt - 10000) / 35000) * 0.345;
-        const correctedAoaCoef = aoaCoef * altitudeCorrection;
-        
         // ------- Minimum speed -------
         // Minimum speed is defined as the speed at which stick shaker activation occurs.
-        const minIas = SpeedLimitPublisher.estimateIasFromNormAoa(correctedAoaCoef, this.stickShakerNormAoa, 1);
+        const minIas = SpeedLimitPublisher.estimateIasFromNormAoa(aoaCoef, this.stickShakerNormAoa, 1);
         this.publish('speedlimit_min_ias', isFinite(minIas) ? minIas : null);
         // ------- Minimum maneuvering speed -------
         // Top of amber bar indicates minimum maneuvering speed. This airspeed provides:
@@ -69221,19 +69148,24 @@ class SpeedLimitPublisher extends BasePublisher {
         // approximately 20,000 ft
         // Displayed with first flap retraction after takeoff.
         // Note: 1.3 g maneuver capability occurs at 40º of bank in level flight
-        let minManeuverIas;
-        if (pressureAlt < (this.isAltBelow20k ? 20100 : 19900)) {
-            minManeuverIas = SpeedLimitPublisher.estimateIasFromNormAoa(correctedAoaCoef, this.stickShakerNormAoa, 1.3 / loadFactor);
-            this.isAltBelow20k = true;
+        if (this.flapsHandleIndex.get() > 0) {
+            this.publish('speedlimit_min_maneuver_ias', null);
         }
         else {
-            // Use stickShakerNormAoa as proxy for low speed buffet onset to ensure indication visibility
-            minManeuverIas = SpeedLimitPublisher.estimateIasFromNormAoa(correctedAoaCoef, this.stickShakerNormAoa, 1.3 / loadFactor);
-            this.isAltBelow20k = false;
+            let minManeuverIas;
+            if (pressureAlt < (this.isAltBelow20k ? 20100 : 19900)) {
+                minManeuverIas = SpeedLimitPublisher.estimateIasFromNormAoa(aoaCoef, this.stickShakerNormAoa, 1.3 / loadFactor);
+                this.isAltBelow20k = true;
+            }
+            else {
+                // Use stickShakerNormAoa as proxy for low speed buffet onset to ensure indication visibility
+                minManeuverIas = SpeedLimitPublisher.estimateIasFromNormAoa(aoaCoef, this.stickShakerNormAoa, 1.3 / loadFactor);
+                this.isAltBelow20k = false;
+            }
+            this.publish('speedlimit_min_maneuver_ias', isFinite(minManeuverIas) ? minManeuverIas : null);
         }
-        this.publish('speedlimit_min_maneuver_ias', isFinite(minManeuverIas) ? minManeuverIas : null);
         // ------- Stall speed -------
-        const stallIas = SpeedLimitPublisher.estimateIasFromNormAoa(correctedAoaCoef, 1, 1);
+        const stallIas = SpeedLimitPublisher.estimateIasFromNormAoa(aoaCoef, 1, 1);
         this.publish('speedlimit_stall_ias', isFinite(stallIas) ? stallIas : null);
     }
     /**

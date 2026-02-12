@@ -13,18 +13,18 @@ html {
   --boeing-colors-black-translucent: rgba(0, 0, 0, 0.2);
   --boeing-colors-black-translucent-border: rgba(0, 0, 0, 0.5);
   --boeing-colors-white: white;
-  --boeing-colors-gray: #757381;
-  --boeing-colors-dark-gray: #6a6783ff;
-  --boeing-colors-darker-gray: #5f5f6e;
+  --boeing-colors-gray: #89869a;
+  --boeing-colors-dark-gray: #7b7798;
+  --boeing-colors-darker-gray: #646474;
   --boeing-colors-cdu-gray: #535066;
   --boeing-colors-cyan-new: #00eeffff;
   --boeing-colors-darker-new: #767391;
   --boeing-colors-blue: hsl(230, 100%, 51%);
-  --boeing-colors-cyan: rgb(0, 204, 255);
+  --boeing-colors-cyan: #00eeffff;
   --boeing-colors-red: red;
   --boeing-colors-amber: #ffd600;
   --boeing-colors-green: #33ff00ff;
-  --boeing-colors-dark-green: #16911c;
+  --boeing-colors-dark-green: #1d9123;
   --boeing-colors-magenta: #ff5bff;
 
   /* Keep B787 colors in sync with B787Colors.ts */
@@ -964,10 +964,6 @@ html {
   /* Zipper repeating unit is 5 knots rounded to the nearest even pixel. */
   background-size: 100% 28px;
   border-bottom: solid 1px var(--boeing-colors-black);
-}
-
-.airspeed-range-container.airspeed-range-container-min-maneuver {
-  width: 10px;
 }
 
 .airspeed-range-container-min-maneuver .airspeed-range {

@@ -18,7 +18,7 @@ html {
   --boeing-colors-red: red;
   --boeing-colors-amber: hsl(45, 100%, 50%);
   --boeing-colors-green: #49e700;
-  --boeing-colors-dark-green: #188d18;
+  --boeing-colors-dark-green: #007500;
   --boeing-colors-magenta: #ff00ff;
   --boeing-colors-off: #ff00ff00;
   --button-text-color: var(--b78x-efb-border-blue);

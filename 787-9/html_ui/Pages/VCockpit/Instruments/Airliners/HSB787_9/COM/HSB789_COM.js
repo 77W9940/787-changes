@@ -412,9 +412,14 @@ class B787_10_Com_VHF extends B787_10_Com_Page {
     }
 
     handleLineSelection(lineIndex, element, isRightSide) {
+        const wasActive = (this.activeLine === lineIndex);
         this.activeLine = lineIndex;
         if (this.input.textContent !== "") {
             this.writeFreq(element);
+        } else {
+            if (wasActive) {
+                this.swap();
+            }
         }
     }
 
@@ -799,21 +804,18 @@ class B787_10_Com_NAV extends B787_10_Com_Page {
         this.switchState = false;
     }
     show() {
-        super.show();
-        const savedState = this.getNavSwitchState();
-        this.switch(savedState);
-
+        super.show(); // Initialize with dashes if no values
         if (this.ils === 0) {
             this.setValue(this.l1, "------");
         } else {
             this.setFreq(this.l1, this.ils);
         }
-
         if (this.course === 0) {
             this.setValue(this.l2, "---");
         } else {
             this.setCourse(this.l2, this.course);
         }
+        this.switch(this.com.radioNav.getRADIONAVActive(this.com.instrumentIndex));
     }
     onUpdate(_deltaTime) {
         super.onUpdate(_deltaTime);
@@ -840,9 +842,9 @@ class B787_10_Com_NAV extends B787_10_Com_Page {
                 }
                 break;
             case "R1":
-                const newState = !this.switchState;
-                this.setNavSwitchState(newState);
-                this.switch(newState);
+                const active = this.com.radioNav.getRADIONAVActive(this.com.instrumentIndex);
+                this.com.radioNav.setRADIONAVActive(this.com.instrumentIndex, !active);
+                this.switch(!active);
                 this.updateSim();
                 break;
         }
@@ -851,19 +853,14 @@ class B787_10_Com_NAV extends B787_10_Com_Page {
         this.switchState = _val;
         if (_val) {
             this.setHTML(this.r1, "<tspan style='fill:lime'>ON</tspan><tspan style='font-size:26px'>←→OFF</tspan>");
+            this.setEditable(this.l1, true);
+            this.setEditable(this.l2, true);
         } else {
             this.setHTML(this.r1, "<tspan style='font-size:26px'>ON←→</tspan><tspan style='fill:lime'>OFF</tspan>");
+            this.setEditable(this.l1, false);
+            this.setEditable(this.l2, false);
         }
-        this.setEditable(this.l1, _val);
-        this.setEditable(this.l2, _val);
         this.updateDisplayColors();
-        this.com.radioNav.setRADIONAVActive(this.com.instrumentIndex, _val);
-    }
-    getNavSwitchState() {
-        return !!SimVar.GetSimVarValue("L:HS_B788_NAV_SWITCH", "Bool");
-    }
-    setNavSwitchState(val) {
-        SimVar.SetSimVarValue("L:HS_B788_NAV_SWITCH", "Bool", !!val);
     }
     setEditable(_elem, _editable) {
         if (_editable) {
@@ -876,16 +873,18 @@ class B787_10_Com_NAV extends B787_10_Com_Page {
         const color = this.switchState ? "white" : "rgb(0, 183, 255)";
         this.setElemColor(this.l1, color);
         this.setElemColor(this.l2, color);
-        
         const l1Title = document.querySelector("#NAV .L1_Title");
         const l2Title = document.querySelector("#NAV .L2_Title");
         const titleColor = this.switchState ? "white" : "rgb(0, 183, 255)";
-        
-        if (l1Title) l1Title.style.fill = titleColor;
-        if (l2Title) l2Title.style.fill = titleColor;
+        if (l1Title) {
+            l1Title.style.fill = titleColor;
+        }
+        if (l2Title) {
+            l2Title.style.fill = titleColor;
+        }
     }
     setElemColor(_elem, _color) {
-        if (_elem) _elem.style.fill = _color;
+        _elem.style.fill = _color;
     }
     checkFreq(_frq) {
         return _frq >= 108 && _frq <= 111.95 && RadioNav.isHz50Compliant(_frq);
@@ -899,21 +898,29 @@ class B787_10_Com_NAV extends B787_10_Com_Page {
         this.updateDisplayColors();
     }
     writeFreq(_elem) {
-        if (this.switchState) {
-            if (this.input.textContent == this.inputClr) {
-                this.setValue(_elem, this.noFreq);
+        if (this.switchState && this.input.textContent == this.inputClr) {
+            this.setValue(_elem, this.noFreq);
+            this.updateSim();
+        } else if (this.switchState) {
+            const freq = parseFloat(this.input.textContent);
+            if (this.checkFreq(freq)) {
+                this.setValue(_elem, fastToFixed(freq, 2));
+                diffAndSetText(this.input, "");
                 this.updateSim();
             } else {
-                const freq = parseFloat(this.input.textContent);
-                if (this.checkFreq(freq)) {
-                    this.setValue(_elem, fastToFixed(freq, 2));
-                    diffAndSetText(this.input, "");
-                    this.updateSim();
-                } else {
-                    diffAndSetText(this.input, this.inputInvalid);
-                }
+                diffAndSetText(this.input, this.inputInvalid);
             }
         }
+    }
+    readFreq(_elem) {
+        const val = this.getValue(_elem);
+        if (val != this.noFreq) {
+            const frq = parseFloat(val);
+            if (isFinite(frq)) {
+                return frq;
+            }
+        }
+        return 0;
     }
     setCourse(_elem, _crs) {
         if (isFinite(_crs) && _crs > 0) {
@@ -924,42 +931,34 @@ class B787_10_Com_NAV extends B787_10_Com_Page {
         this.updateDisplayColors();
     }
     writeCourse(_elem) {
-        if (this.switchState) {
-            if (this.input.textContent == this.inputClr) {
-                this.setValue(_elem, this.noCourse);
+        if (this.switchState && this.input.textContent == this.inputClr) {
+            this.setValue(_elem, this.noCourse);
+            this.updateSim();
+        } else if (this.switchState) {
+            const crs = parseFloat(this.input.textContent);
+            if (crs > 0 && crs <= 360) {
+                this.setValue(_elem, fastToFixed(crs, 0));
+                diffAndSetText(this.input, "");
                 this.updateSim();
             } else {
-                const crs = parseFloat(this.input.textContent);
-                if (crs > 0 && crs <= 360) {
-                    this.setValue(_elem, fastToFixed(crs, 0));
-                    diffAndSetText(this.input, "");
-                    this.updateSim();
-                } else {
-                    diffAndSetText(this.input, this.inputInvalid);
-                }
+                diffAndSetText(this.input, this.inputInvalid);
             }
         }
-    }
-    readFreq(_elem) {
-        const val = this.getValue(_elem);
-        if (val != this.noFreq) {
-            const frq = parseFloat(val);
-            return isFinite(frq) ? frq : 0;
-        }
-        return 0;
     }
     readCourse(_elem) {
         const val = this.getValue(_elem);
         if (val != this.noCourse) {
             const crs = parseInt(val);
-            return isFinite(crs) ? crs : 0;
+            if (isFinite(crs)) {
+                return crs;
+            }
         }
         return 0;
     }
     updateSim() {
         this.ils = this.readFreq(this.l1);
         this.course = this.readCourse(this.l2);
-        if (this.switchState) {
+        if (this.com.radioNav.getRADIONAVActive(this.com.instrumentIndex)) {
             this.com.radioNav.setILSActiveFrequency(1, this.ils);
         }
     }
@@ -1800,17 +1799,16 @@ class B787_10_Com_Stored extends B787_10_Com_Page {
             const now = Date.now();
             const isDoubleClick = (now - this.lastClrTime < 500);
             this.lastClrTime = now;
-
-            const currentInput = this.input.textContent;
-
-            if (currentInput === "" && !isDoubleClick) {
-                diffAndSetText(this.input, this.inputClr);
+            if (this.input.textContent === this.inputClr || this.input.textContent === this.inputInvalid) {
+                diffAndSetText(this.input, "");
             } else if (isDoubleClick) {
                 diffAndSetText(this.input, "CLEAR PAGE");
-            } else if (currentInput === this.inputClr || currentInput === "CLEAR PAGE" || currentInput === this.inputInvalid) {
+            } else if (this.input.textContent === "CLEAR PAGE") {
                 diffAndSetText(this.input, "");
             } else {
-                diffAndSetText(this.input, currentInput.slice(0, -1));
+                if (this.input.textContent.length > 0) {
+                    diffAndSetText(this.input, this.input.textContent.slice(0, -1));
+                }
             }
             return; 
         }
@@ -1869,27 +1867,25 @@ class B787_10_Com_Stored extends B787_10_Com_Page {
             return;
         }
 
+        if (dataIndex > filledCount) return;
+
         if (this.input.textContent === this.inputClr) {
             if (dataIndex < filledCount) {
                 this.com.storedFrequencies.splice(dataIndex, 1);
-                this.com.storedFrequencies.push(""); 
+                this.com.storedFrequencies.push("");
 
                 const max = this.getMaxPages();
                 if (this.pageIndex > max) this.pageIndex = max;
-                
                 this.com.saveStoredFrequencies();
+
                 diffAndSetText(this.input, "");
                 this.updateDisplay(true);
             }
-            return;
-        }
-
-        if (dataIndex > filledCount) return;
-
-        if (this.input.textContent !== "" && this.input.textContent !== this.inputInvalid) {
+        } else if (this.input.textContent !== "" && this.input.textContent !== this.inputInvalid) {
             const freq = this.parseInputFreq(this.input.textContent);
             if (this.checkFreq(freq)) {
                 this.com.storedFrequencies[dataIndex] = fastToFixed(freq, 3);
+
                 this.com.saveStoredFrequencies();
                 diffAndSetText(this.input, "");
                 this.updateDisplay(true);

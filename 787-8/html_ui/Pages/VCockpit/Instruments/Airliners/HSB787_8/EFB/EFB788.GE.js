@@ -28323,43 +28323,12 @@ class FsBaseInstrument extends BaseInstrument {
     }
 }
 
-
 /** Type for whether ND is in HDG up or TRK up mode. */
 var BoeingNdHdgTrkUpMode;
 (function (BoeingNdHdgTrkUpMode) {
     BoeingNdHdgTrkUpMode[BoeingNdHdgTrkUpMode["HDG"] = 0] = "HDG";
     BoeingNdHdgTrkUpMode[BoeingNdHdgTrkUpMode["TRK"] = 1] = "TRK";
 })(BoeingNdHdgTrkUpMode || (BoeingNdHdgTrkUpMode = {}));
-/** SatCom. */
-var BoeingMsfsSatCom;
-(function (BoeingMsfsSatCom) {
-    BoeingMsfsSatCom[BoeingMsfsSatCom["ON"] = 1] = "ON";
-    BoeingMsfsSatCom[BoeingMsfsSatCom["OFF"] = 0] = "OFF";
-})(BoeingMsfsSatCom || (BoeingMsfsSatCom = {}));
-/** VBar. */
-var BoeingMsfsVBar;
-(function (BoeingMsfsVBar) {
-    BoeingMsfsVBar[BoeingMsfsVBar["XPTR"] = 1] = "XPTR";
-    BoeingMsfsVBar[BoeingMsfsVBar["VBAR"] = 0] = "VBAR";
-})(BoeingMsfsVBar || (BoeingMsfsVBar = {}));
-//AOA
-var BoeingMsfsAOA;
-(function (BoeingMsfsAOA) {
-    BoeingMsfsAOA[BoeingMsfsAOA["ON"] = 1] = "ON";
-    BoeingMsfsAOA[BoeingMsfsAOA["OFF"] = 0] = "OFF";
-})(BoeingMsfsAOA || (BoeingMsfsAOA = {}));
-// ADF
-var BoeingMsfsADF;
-(function (BoeingMsfsADF) {
-    BoeingMsfsADF[BoeingMsfsADF["ON"] = 1] = "ON";
-    BoeingMsfsADF[BoeingMsfsADF["OFF"] = 0] = "OFF";
-})(BoeingMsfsADF || (BoeingMsfsADF = {}));
-// Radio Alt
-var BoeingMsfsRadAlt;
-(function (BoeingMsfsRadAlt) {
-    BoeingMsfsRadAlt[BoeingMsfsRadAlt["ROUND"] = 1] = "ROUND";
-    BoeingMsfsRadAlt[BoeingMsfsRadAlt["CLASSIC"] = 0] = "CLASSIC";
-})(BoeingMsfsRadAlt || (BoeingMsfsRadAlt = {}));
 /** Type for whether ND is in HDG up or TRK up mode. */
 var BoeingFuelIndicatorStyle;
 (function (BoeingFuelIndicatorStyle) {
@@ -28391,7 +28360,6 @@ var BoeingAutoFuelMode;
     /** Auto fuel management off */
     BoeingAutoFuelMode[BoeingAutoFuelMode["OFF"] = 1] = "OFF";
 })(BoeingAutoFuelMode || (BoeingAutoFuelMode = {}));
-
 var BoeingEfbCalcSpeed;
 (function (BoeingEfbCalcSpeed) {
     BoeingEfbCalcSpeed[BoeingEfbCalcSpeed["FAST"] = 0] = "FAST";
@@ -28407,7 +28375,7 @@ var HorizonPayloadRate;
     HorizonPayloadRate[HorizonPayloadRate["INSTANT"] = 2] = "INSTANT";
 })(HorizonPayloadRate || (HorizonPayloadRate = {}));
 /**
- * Refuel Speed - Sync with EFB to Time Remaining
+ * Refuel Speed
  */
 var HorizonRateFuel;
 (function (HorizonRateFuel) {
@@ -28416,7 +28384,7 @@ var HorizonRateFuel;
     HorizonRateFuel[HorizonRateFuel["INSTANT"] = 0] = "INSTANT";
 })(HorizonRateFuel || (HorizonRateFuel = {}));
 /**
- * Boarding Speed - Sync with EFB to Time Remaining
+ * Boarding Speed
  */
 var HorizonRatePax;
 (function (HorizonRatePax) {
@@ -28425,7 +28393,7 @@ var HorizonRatePax;
     HorizonRatePax[HorizonRatePax["INSTANT"] = 0] = "INSTANT";
 })(HorizonRatePax || (HorizonRatePax = {}));
 /**
- * Loading Speed - Sync with EFB to Time Remaining
+ * Loading Speed
  */
 var HorizonRateCargo;
 (function (HorizonRateCargo) {
@@ -28453,14 +28421,6 @@ const boeingMsfsUserSettings = [
         defaultValue: 'HS-KR',
     },
     {
-        name: 'boeingMsfsSatCom',
-        defaultValue: BoeingMsfsSatCom.OFF,
-    },
-    {
-        name: 'boeingMsfsVBar',
-        defaultValue: BoeingMsfsVBar.XPTR,
-    },
-    {
         name: 'boeingMsfsAutoFuelManagement',
         defaultValue: BoeingAutoFuelMode.OFF,
     },
@@ -28471,18 +28431,6 @@ const boeingMsfsUserSettings = [
     {
         name: 'boeingMsfsSimbriefUsername',
         defaultValue: '',
-    },
-    {
-        name: 'boeingMsfsAdf',
-        defaultValue: BoeingMsfsADF.OFF,
-    },
-    {
-        name: 'boeingMsfsAOA',
-        defaultValue: BoeingMsfsAOA.OFF,
-    },
-    {
-        name: 'BoeingMsfsRadAlt',
-        defaultValue: BoeingMsfsRadAlt.ON,
     },
     {
         name: 'boeingSpeedCalc',
@@ -51399,9 +51347,6 @@ class B787PerformancePageARPTINFO extends DisplayPaneView {
         this.RWYName = Subject.create('');
         this.RWyslope = Subject.create('');
         this.RWyLength = Subject.create('');
-        this.RWyLengthDisplay = Subject.create('');
-        this.RWyLengthASDADisplay = Subject.create('');
-        this.RWyLengthLDADisplay = Subject.create('');
         this.RWyElev = Subject.create('');
         this.rwyident = Subject.create('');
     }
@@ -51422,12 +51367,7 @@ class B787PerformancePageARPTINFO extends DisplayPaneView {
         takeoffRunway !== null && this.RWYName.set(takeoffRunway);
         this.rwyident.set(RunwayUtils.getRunwayNameString(takeoffRunway.direction, takeoffRunway.runwayDesignator));
         this.RWyslope.set(parseFloat(takeoffRunway.gradient).toFixed(2));
-        const lengthFeet = Math.round(parseFloat(takeoffRunway.length) * 3.28084);
-        const lengthMeters = Math.round(parseFloat(takeoffRunway.length));
-        this.RWyLength.set(lengthFeet);
-        this.RWyLengthDisplay.set(lengthFeet + ' ft / ' + lengthMeters + ' m');
-        this.RWyLengthASDADisplay.set(lengthFeet + ' ft / ' + lengthMeters + ' m');
-        this.RWyLengthLDADisplay.set(lengthFeet + ' ft / ' + lengthMeters + ' m');
+        this.RWyLength.set(Math.round(parseFloat(takeoffRunway.length) * 3.28084));
         this.RWyElev.set(Math.round(parseFloat(takeoffRunway.elevation) * 3.28084));
     }
 
@@ -51491,19 +51431,19 @@ class B787PerformancePageARPTINFO extends DisplayPaneView {
                     FSComponent.buildComponent(BoeingEfbDynamicLabel, { Name: this.rwyident, width: 130, SecondaryText: "Runway", Smaller: false })
                 ),
                 FSComponent.buildComponent("div", { class: 'efb-Data-TORA' },
-                    FSComponent.buildComponent(BoeingEfbDynamicLabel, { Name: this.RWyLengthDisplay , width: 200 ,SecondaryText: "TORA:",Smaller: true }),
+                    FSComponent.buildComponent(BoeingEfbDynamicLabel, { Name: this.RWyLength , width: 200 ,SecondaryText: "TORA:",Smaller: true,TertiaryText: "ft" }),
                 ),
                 FSComponent.buildComponent("div", { class: 'efb-Data-TODA' },
                     FSComponent.buildComponent(BoeingEfbDynamicLabel, { width: 200 ,SecondaryText: "TODA:",Smaller: true,}),
                 ),
                 FSComponent.buildComponent("div", { class: 'efb-Data-ASDA' },
-                    FSComponent.buildComponent(BoeingEfbDynamicLabel, { Name: this.RWyLengthASDADisplay , width: 200 ,SecondaryText: "ASDA:",Smaller: true }),
+                    FSComponent.buildComponent(BoeingEfbDynamicLabel, { Name: this.RWyLength , width: 200 ,SecondaryText: "ADSA:",Smaller: true,TertiaryText: "ft" }),
                 ),
                 FSComponent.buildComponent("div", { class: 'efb-Data-Slope' },
                     FSComponent.buildComponent(BoeingEfbDynamicLabel, { Name: this.RWyslope , width: 200 ,SecondaryText: "Slope:",Smaller: true,TertiaryText: "%" }),
                 ),
                 FSComponent.buildComponent("div", { class: 'efb-Data-LDA' },
-                    FSComponent.buildComponent(BoeingEfbDynamicLabel, { Name: this.RWyLengthLDADisplay , width: 200 ,SecondaryText: "LDA:",Smaller: true }),
+                    FSComponent.buildComponent(BoeingEfbDynamicLabel, { Name: this.RWyLength , width: 200 ,SecondaryText: "LDA:",Smaller: true,TertiaryText: "ft" }),
                 ),
 
             )));

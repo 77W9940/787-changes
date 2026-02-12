@@ -32326,43 +32326,12 @@ var AutolandCapability;
     AutolandCapability[AutolandCapability["FailOperational"] = 2] = "FailOperational";
 })(AutolandCapability || (AutolandCapability = {}));
 
-
 /** Type for whether ND is in HDG up or TRK up mode. */
 var BoeingNdHdgTrkUpMode;
 (function (BoeingNdHdgTrkUpMode) {
     BoeingNdHdgTrkUpMode[BoeingNdHdgTrkUpMode["HDG"] = 0] = "HDG";
     BoeingNdHdgTrkUpMode[BoeingNdHdgTrkUpMode["TRK"] = 1] = "TRK";
 })(BoeingNdHdgTrkUpMode || (BoeingNdHdgTrkUpMode = {}));
-/** SatCom. */
-var BoeingMsfsSatCom;
-(function (BoeingMsfsSatCom) {
-    BoeingMsfsSatCom[BoeingMsfsSatCom["ON"] = 1] = "ON";
-    BoeingMsfsSatCom[BoeingMsfsSatCom["OFF"] = 0] = "OFF";
-})(BoeingMsfsSatCom || (BoeingMsfsSatCom = {}));
-/** VBar. */
-var BoeingMsfsVBar;
-(function (BoeingMsfsVBar) {
-    BoeingMsfsVBar[BoeingMsfsVBar["XPTR"] = 1] = "XPTR";
-    BoeingMsfsVBar[BoeingMsfsVBar["VBAR"] = 0] = "VBAR";
-})(BoeingMsfsVBar || (BoeingMsfsVBar = {}));
-//AOA
-var BoeingMsfsAOA;
-(function (BoeingMsfsAOA) {
-    BoeingMsfsAOA[BoeingMsfsAOA["ON"] = 1] = "ON";
-    BoeingMsfsAOA[BoeingMsfsAOA["OFF"] = 0] = "OFF";
-})(BoeingMsfsAOA || (BoeingMsfsAOA = {}));
-// ADF
-var BoeingMsfsADF;
-(function (BoeingMsfsADF) {
-    BoeingMsfsADF[BoeingMsfsADF["ON"] = 1] = "ON";
-    BoeingMsfsADF[BoeingMsfsADF["OFF"] = 0] = "OFF";
-})(BoeingMsfsADF || (BoeingMsfsADF = {}));
-// Radio Alt
-var BoeingMsfsRadAlt;
-(function (BoeingMsfsRadAlt) {
-    BoeingMsfsRadAlt[BoeingMsfsRadAlt["ROUND"] = 1] = "ROUND";
-    BoeingMsfsRadAlt[BoeingMsfsRadAlt["CLASSIC"] = 0] = "CLASSIC";
-})(BoeingMsfsRadAlt || (BoeingMsfsRadAlt = {}));
 /** Type for whether ND is in HDG up or TRK up mode. */
 var BoeingFuelIndicatorStyle;
 (function (BoeingFuelIndicatorStyle) {
@@ -32394,51 +32363,7 @@ var BoeingAutoFuelMode;
     /** Auto fuel management off */
     BoeingAutoFuelMode[BoeingAutoFuelMode["OFF"] = 1] = "OFF";
 })(BoeingAutoFuelMode || (BoeingAutoFuelMode = {}));
-
-var BoeingEfbCalcSpeed;
-(function (BoeingEfbCalcSpeed) {
-    BoeingEfbCalcSpeed[BoeingEfbCalcSpeed["FAST"] = 0] = "FAST";
-    BoeingEfbCalcSpeed[BoeingEfbCalcSpeed["REAL"] = 1] = "REAL";
-})(BoeingEfbCalcSpeed || (BoeingEfbCalcSpeed = {}));
-/**
- * Loading Speed Setting
- */
-var HorizonPayloadRate;
-(function (HorizonPayloadRate) {
-    HorizonPayloadRate[HorizonPayloadRate["REAL"] = 0] = "REAL";
-    HorizonPayloadRate[HorizonPayloadRate["FAST"] = 1] = "FAST";
-    HorizonPayloadRate[HorizonPayloadRate["INSTANT"] = 2] = "INSTANT";
-})(HorizonPayloadRate || (HorizonPayloadRate = {}));
-/**
- * Refuel Speed - Sync with EFB to Time Remaining
- */
-var HorizonRateFuel;
-(function (HorizonRateFuel) {
-    HorizonRateFuel[HorizonRateFuel["REAL"] = 32] = "REAL"; //Typical Truck 300Gal/min => 5Gal/s => ~ 32 LB/s
-    HorizonRateFuel[HorizonRateFuel["FAST"] = 220] = "FAST"; // 100kg/s
-    HorizonRateFuel[HorizonRateFuel["INSTANT"] = 0] = "INSTANT";
-})(HorizonRateFuel || (HorizonRateFuel = {}));
-/**
- * Boarding Speed - Sync with EFB to Time Remaining
- */
-var HorizonRatePax;
-(function (HorizonRatePax) {
-    HorizonRatePax[HorizonRatePax["REAL"] = 7.5] = "REAL"; //7.5 Pax per Minute
-    HorizonRatePax[HorizonRatePax["FAST"] = 30] = "FAST"; //30 Pax per Minute
-    HorizonRatePax[HorizonRatePax["INSTANT"] = 0] = "INSTANT";
-})(HorizonRatePax || (HorizonRatePax = {}));
-/**
- * Loading Speed - Sync with EFB to Time Remaining
- */
-var HorizonRateCargo;
-(function (HorizonRateCargo) {
-    HorizonRateCargo[HorizonRateCargo["REAL"] = 16] = "REAL"; //16 lbs/s => ~993 lbs/min
-    HorizonRateCargo[HorizonRateCargo["FAST"] = 60] = "FAST"; //60 lbs/s => 3600 lbs/min
-    HorizonRateCargo[HorizonRateCargo["INSTANT"] = 0] = "INSTANT";
-})(HorizonRateCargo || (HorizonRateCargo = {}));
-
 const boeingMsfsUserSettings = [
-
     {
         name: 'boeingMsfsNdHdgTrkUpMode',
         defaultValue: BoeingNdHdgTrkUpMode.TRK,
@@ -32456,14 +32381,6 @@ const boeingMsfsUserSettings = [
         defaultValue: 'HS-KR',
     },
     {
-        name: 'boeingMsfsSatCom',
-        defaultValue: BoeingMsfsSatCom.OFF,
-    },
-    {
-        name: 'boeingMsfsVBar',
-        defaultValue: BoeingMsfsVBar.XPTR,
-    },
-    {
         name: 'boeingMsfsAutoFuelManagement',
         defaultValue: BoeingAutoFuelMode.OFF,
     },
@@ -32474,34 +32391,6 @@ const boeingMsfsUserSettings = [
     {
         name: 'boeingMsfsSimbriefUsername',
         defaultValue: '',
-    },
-    {
-        name: 'boeingMsfsAdf',
-        defaultValue: BoeingMsfsADF.OFF,
-    },
-    {
-        name: 'boeingMsfsAOA',
-        defaultValue: BoeingMsfsAOA.OFF,
-    },
-    {
-        name: 'BoeingMsfsRadAlt',
-        defaultValue: BoeingMsfsRadAlt.ON,
-    },
-    {
-        name: 'boeingSpeedCalc',
-        defaultValue: BoeingEfbCalcSpeed.REAL,
-    },
-    {
-        name: 'HorizonRefuelRate',
-        defaultValue: HorizonPayloadRate.REAL,
-    },
-    {
-        name: 'HorizonPaxRate',
-        defaultValue: HorizonPayloadRate.REAL,
-    },
-    {
-        name: 'HorizonCargoRate',
-        defaultValue: HorizonPayloadRate.REAL,
     },
 ];
 /**
@@ -52421,27 +52310,25 @@ class SpeedLimitPublisher extends BasePublisher {
         const iasSquared = ias * ias;
         const coef = normAoa * iasSquared;
         const aoaCoef = this.aoaCoefSmoother.next(coef, dt);
-        const altitudeCorrection = 1.0 + Math.max(0, (pressureAlt - 10000) / 35000) * 0.345;
-        const correctedAoaCoef = aoaCoef * altitudeCorrection;
         const loadFactor = this.loadFactorSmoother.next(this.loadFactorSource.get(), dt);
         // ------- Minimum speed -------
         // Minimum speed is defined as the speed at which stick shaker activation occurs.
-        const minIas = SpeedLimitPublisher.estimateIasFromNormAoa(correctedAoaCoef, this.stickShakerNormAoa, 1);
+        const minIas = SpeedLimitPublisher.estimateIasFromNormAoa(aoaCoef, this.stickShakerNormAoa, 1);
         this.publish('speedlimit_min_ias', isFinite(minIas) ? minIas : null);
         // ------- Minimum maneuvering speed -------
         // Minimum maneuvering speed is defined as the minimum speed at which the airplane can be flown at 1.3g load factor
         // before triggering stick shaker (below 20k feet) or before encountering low speed buffet (above 20k feet).
         let minManeuverIas;
         if (pressureAlt < (this.isAltBelow20k ? 20100 : 19900)) {
-            minManeuverIas = SpeedLimitPublisher.estimateIasFromNormAoa(correctedAoaCoef, this.stickShakerNormAoa, 1.3 / loadFactor);
+            minManeuverIas = SpeedLimitPublisher.estimateIasFromNormAoa(aoaCoef, this.stickShakerNormAoa, 1.3 / loadFactor);
             this.isAltBelow20k = true;
         } else {
-            minManeuverIas = SpeedLimitPublisher.estimateIasFromNormAoa(correctedAoaCoef, this.stickShakerNormAoa, 1.3 / loadFactor);
+            minManeuverIas = SpeedLimitPublisher.estimateIasFromNormAoa(aoaCoef, 1, 1.3 / loadFactor);
             this.isAltBelow20k = false;
         }
         this.publish('speedlimit_min_maneuver_ias', isFinite(minManeuverIas) ? minManeuverIas : null);
         // ------- Stall speed -------
-        const stallIas = SpeedLimitPublisher.estimateIasFromNormAoa(correctedAoaCoef, 1, 1);
+        const stallIas = SpeedLimitPublisher.estimateIasFromNormAoa(aoaCoef, 1, 1);
         this.publish('speedlimit_stall_ias', isFinite(stallIas) ? stallIas : null);
     }
     /**
